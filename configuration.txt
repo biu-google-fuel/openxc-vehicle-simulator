@@ -129,7 +129,7 @@
 		},
 		{
 			"name": "latitude",
-			"enable": 0,
+			"enable": 1,
 			"period": 1,
 			"fast_update": "False",
 			"last_value": "False",
@@ -138,7 +138,7 @@
 		},
 		{
 			"name": "longitude",
-			"enable": 0,
+			"enable": 1,
 			"period": 1,
 			"fast_update": "False",
 			"last_value": "False",
