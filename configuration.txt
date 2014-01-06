@@ -1,0 +1,149 @@
+{
+	"messages_configure":
+	[
+		{
+			"name": "current_tank_level",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":1
+		},
+		{
+			"name": "steering_wheel_angle",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":1
+		},
+		{
+			"name": "torque_at_transmission",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":1
+		},
+		{
+			"name": "engine_speed",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":1
+		},
+		{
+			"name": "vehicle_speed",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.01,
+			"rounding":2
+		},
+		{
+			"name": "accelerator_pedal_position",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":1
+		},
+		{
+			"name": "parking_brake_status",
+			"enable": 1,
+			"period": 1,
+			"fast_update": "True",
+			"last_value": "False",
+			"precision": 0.1,
+			"rounding":0
+		},
+		{
+			"name": "brake_pedal_status",
+			"enable": 1,
+			"period": 1,
+			"fast_update": "True",
+			"last_value": "False",
+			"precision": 0,
+			"rounding":0
+		},
+		{
+			"name": "transmission_gear_position",
+			"enable": 1,
+			"period":1,
+			"fast_update": "True",
+			"last_value": "first",
+			"precision": 0,
+			"rounding":0
+		},
+		{
+			"name": "gear_lever_position",
+			"enable": 1,
+			"period": 1,
+			"fast_update": "True",
+			"last_value": "drive",
+			"precision": 0,
+			"rounding":0
+		},
+		{
+			"name": "odometer",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.002,
+			"rounding":3
+		},		
+		{
+			"name": "ignition_status",
+			"enable": 1,
+			"period": 1,
+			"fast_update": "True",
+			"last_value": "run",
+			"precision": 0,
+			"rounding":0
+		},		
+		{
+			"name": "fuel_level",
+			"enable": 1,
+			"period": 0.5,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 1,
+			"rounding":0
+		},			
+		{
+			"name": "fuel_consumed_since_restart",
+			"enable": 1,
+			"period": 0.1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.000001,
+			"rounding":6
+		},
+		{
+			"name": "latitude",
+			"enable": 1,
+			"period": 1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.000001,
+			"rounding":5
+		},
+		{
+			"name": "longitude",
+			"enable": 0,
+			"period": 1,
+			"fast_update": "False",
+			"last_value": "False",
+			"precision": 0.000001,
+			"rounding":5
+		}
+	]
+}

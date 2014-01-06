@@ -19,6 +19,7 @@ class StateManager(object):
 
         self.start_send_loop(self.send_local_loop, "Send-Local-Thread")
 
+        with ()
         self.data = []
         period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
         self.data.append({'name':'steering_wheel_angle',
