@@ -74,6 +74,8 @@ def set_data():
 
      if name == "angle":
           gState.steering_wheel_angle = float(request.form['value'])
+     elif name == "current_fuel_level":
+          gState.current_fuel_level = float(request.form['value'])
      elif name == "accelerator":
           gState.accelerator_pedal_position = float(request.form['value'])
      elif name == "brake":

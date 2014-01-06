@@ -2,7 +2,7 @@
 	"messages_configure":
 	[
 		{
-			"name": "current_tank_level",
+			"name": "current_fuel_level",
 			"enable": 1,
 			"period": 0.1,
 			"fast_update": "False",
@@ -129,7 +129,7 @@
 		},
 		{
 			"name": "latitude",
-			"enable": 1,
+			"enable": 0,
 			"period": 1,
 			"fast_update": "False",
 			"last_value": "False",

@@ -16,6 +16,23 @@ $(function() {
   });
 
 $(function() {
+    var input = $( "#current_fuel_level" );
+    var slider = $( "<div id='slider'></div>" ).insertAfter( input ).slider({
+      min: 0,
+      max: 40,
+      value: 0,
+      slide: function( event, ui ) {
+          input.val(ui.value);
+          jQuery.post($SCRIPT_ROOT + '/_set_data', {name: "current_fuel_level", value: ui.value});
+      }
+    });
+    $( "#current_fuel_level" ).change(function() {
+        slider.slider( "value", this.value );
+        jQuery.post($SCRIPT_ROOT + '/_set_data', { name: "current_fuel_level", value: this.value});
+    });
+  });
+
+$(function() {
     var input = $( "#accelerator" );
     var slider = $( "<div id='slider'></div>" ).insertAfter( input ).slider({
       min: 0,
@@ -31,6 +48,7 @@ $(function() {
         jQuery.post($SCRIPT_ROOT + '/_set_data', { name: "accelerator", value: this.value});
     });
   });
+
 
 $(function() {
     var input = $( "#brake" );

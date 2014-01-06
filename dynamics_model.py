@@ -54,6 +54,7 @@ class DynamicsModel(object):
         self.engine_running = True
         self.ignition_data = 'run'
         self.gear_lever = 'drive'
+        self.current_fuel_level = 0
 
         self.snapshot['accelerator_pedal_position'] = self.accelerator
         self.snapshot['brake'] = self.brake
@@ -63,6 +64,7 @@ class DynamicsModel(object):
         self.snapshot['ignition_status'] = self.ignition_data
         self.snapshot['brake_pedal_status'] = self.brake_pedal_status
         self.snapshot['gear_lever_position'] = self.gear_lever
+        self.snapshot['current_fuel_level'] = self.current_fuel_level
 
         self.stopped = False
 
@@ -79,7 +81,7 @@ class DynamicsModel(object):
                 for data in self.calculations:
                     data.iterate(self.snapshot)
                     new_snapshot[data.name] = data.get()
-                    
+
                 # Store the latest user input...
                 new_snapshot['accelerator_pedal_position'] = self.accelerator
                 new_snapshot['brake'] = self.brake
@@ -89,6 +91,7 @@ class DynamicsModel(object):
                 new_snapshot['ignition_status'] = self.ignition_data
                 new_snapshot['brake_pedal_status'] = self.brake_pedal_status
                 new_snapshot['gear_lever_position'] = self.gear_lever
+                new_snapshot['current_fuel_level'] = self.current_fuel_level
 
                 self.snapshot = new_snapshot
 # Properties  ---------------------

@@ -4,13 +4,14 @@ import threading
 import time
 import datetime
 import math
+import json
 
 class StateManager(object):
     def __init__(self):
         self.stopped = False
         self.connection = enabler_connection.EnablerConnection()
         self.dynamics_model = dynamics_model.DynamicsModel()
-        
+
         self.headlamp = False
         self.highbeams = False
         self.wipers = False
@@ -19,113 +20,20 @@ class StateManager(object):
 
         self.start_send_loop(self.send_local_loop, "Send-Local-Thread")
 
-        with ()
+        with open('C:\Users\Danny\Documents\GitHub\openxc-vehicle-simulator\configuration.txt', 'rb') as f:
+            configruation_raw_data = f.read()
+        data_configuration = json.loads(configruation_raw_data)['messages_configure']
         self.data = []
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'steering_wheel_angle',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.1,
-                           'rounding': 1})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'torque_at_transmission',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.1,
-                           'rounding': 1})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'engine_speed',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.1,
-                           'rounding': 1})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'vehicle_speed',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.01,
-                           'rounding': 2})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'accelerator_pedal_position',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.1,
-                           'rounding': 1})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'parking_brake_status',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': True,
-                           'last_value': False,
-                           'precision': 0})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'brake_pedal_status',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': True,
-                           'last_value': False,
-                           'precision': 0})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'transmission_gear_position',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': True,
-                           'last_value': 'first',
-                           'precision': 0})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'gear_lever_position',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': True,
-                           'last_value': 'drive',
-                           'precision': 0})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'odometer',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.002,
-                           'rounding': 3})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'ignition_status',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': True,
-                           'last_value': 'run',
-                           'precision': 0})
-        period = datetime.timedelta(microseconds = 1000000/2)  #2Hz
-        self.data.append({'name':'fuel_level',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 1,
-                           'rounding': 0})
-        period = datetime.timedelta(microseconds = 1000000/10)  #10Hz
-        self.data.append({'name':'fuel_consumed_since_restart',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.000001,
-                           'rounding': 6})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'latitude',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.00001,
-                           'rounding': 5})
-        period = datetime.timedelta(microseconds = 1000000/1)  #1Hz
-        self.data.append({'name':'longitude',
-                           'period': period,
-                           'deadline': datetime.datetime.now() + period,
-                           'fast_update': False,
-                           'precision': 0.00001,
-                           'rounding': 5})
+        self.msg_status = {}
+        for item in data_configuration:
+            period = datetime.timedelta(microseconds=1000000*item['period'])
+            msg_name = item['name']
+            msg_enable = bool(item['enable'])
+
+            self.msg_status[msg_name] = msg_enable
+            self.data.append(dict(name=msg_name, period=period, deadline=datetime.datetime.now() + period,
+                                  fast_update=item['fast_update'] == "True", last_update=item['last_value'],
+                                  precision=item['precision'], rounding=item['rounding']))
 
         self.start_send_loop(self.send_dynamics_loop, "Send-Dynamic-Thread")
 
@@ -133,6 +41,13 @@ class StateManager(object):
 
 # Properties -------------------
 
+    @property
+    def current_fuel_level(self):
+        return self.dynamics_model.current_fuel_level
+
+    @current_fuel_level.setter
+    def current_fuel_level(self, value):
+        self.dynamics_model.current_fuel_level = value
     @property
     def steering_wheel_angle(self):
         return self.dynamics_model.steering_wheel_angle
@@ -243,18 +158,19 @@ class StateManager(object):
             value = value - (value % signal['precision'])
             value = round(value, signal['rounding'])
 
-        self.connection.send_measurement(signal['name'],value)
+        if self.msg_status[signal['name']]:
+            self.connection.send_measurement(signal['name'], value)
 
     def send_dynamics_loop(self):
         snapshot = self.dynamics_model.snapshot
         now = datetime.datetime.now()
 
         for signal in self.data:
+
             if now > signal['deadline']:
                 self.update_signal(signal, snapshot)
-                signal['deadline'] = now + signal['period']                
+                signal['deadline'] = now + signal['period']
             elif signal['fast_update']:
-                if snapshot[signal['name']] != signal['last_value']:
                     self.update_signal(signal, snapshot)
         time.sleep(0.01)
 
